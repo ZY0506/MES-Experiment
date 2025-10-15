@@ -1,5 +1,5 @@
 system:
-  mode: debug #debug release test
+  mode: release #debug release test
   port: 8081
 log:
   level: "debug"
