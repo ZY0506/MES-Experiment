@@ -1,0 +1,17 @@
+{"level":"INFO","time":"2025-09-30T11:11:53.675+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-09-30T11:16:20.202+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-09-30T15:52:34.391+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-14T09:48:46.384+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"ERROR","time":"2025-10-14T09:52:54.182+0800","caller":"controller/hardware.go:37","msg":"添加设备失败","error":"Error 1146 (42S02): Table 'test.hardware_models' doesn't exist"}
+{"level":"INFO","time":"2025-10-14T10:00:23.598+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"ERROR","time":"2025-10-14T10:00:28.672+0800","caller":"controller/hardware.go:37","msg":"添加设备失败","error":"Error 1054 (42S22): Unknown column 'created_at' in 'field list'"}
+{"level":"INFO","time":"2025-10-14T10:02:31.092+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-14T10:07:54.688+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-14T10:21:46.761+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-14T10:33:25.501+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-14T16:26:21.114+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"ERROR","time":"2025-10-14T16:26:26.619+0800","caller":"controller/hardware.go:25","msg":"参数错误","error":"Key: 'ReqHardware.ID' Error:Field validation for 'ID' failed on the 'required' tag"}
+{"level":"INFO","time":"2025-10-14T16:34:14.387+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"ERROR","time":"2025-10-14T16:34:50.916+0800","caller":"controller/hardware.go:37","msg":"添加设备失败","error":"snoy flake not inited"}
+{"level":"INFO","time":"2025-10-14T16:37:39.421+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
+{"level":"INFO","time":"2025-10-15T12:54:50.429+0800","caller":"logger/logger.go:44","msg":"init logger success!"}
