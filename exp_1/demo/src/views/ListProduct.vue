@@ -3,7 +3,6 @@
     <div class="card-header" style="display:flex;align-items:center;justify-content:space-between">
       <div>
         <h3 style="margin:0">商品列表</h3>
-        <div style="color:#888;font-size:13px">展示通过 /api/hardware/query 获取的数据</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <el-input v-model="filters.name" placeholder="按名称查询" clearable @clear="onSearch" @keyup.enter.native="onSearch" />
@@ -13,14 +12,18 @@
     </div>
 
     <div class="card-body">
-      <el-table :data="items" v-loading="loading" stripe style="width:100%">
-        <el-table-column prop="ID" label="ID" width="80" />
-        <el-table-column prop="name" label="名称" />
-        <el-table-column prop="category" label="分类" />
-        <el-table-column prop="description" label="描述" />
-        <el-table-column prop="price" label="价格" width="100" />
-        <el-table-column prop="quantity" label="数量" width="100" />
-        <el-table-column label="操作" width="220">
+      <el-table :data="items" v-loading="loading" stripe border style="width:100%">
+        <el-table-column prop="ID" label="ID" width="90" align="center" />
+        <el-table-column prop="name" label="名称" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="category" label="分类" min-width="120" show-overflow-tooltip />
+        <el-table-column prop="description" label="描述" min-width="250" show-overflow-tooltip />
+        <el-table-column prop="price" label="价格" width="110" align="right">
+            <template #default="scope">
+                {{ formatPrice(scope.row.price) }}
+            </template>
+        </el-table-column>
+        <el-table-column prop="quantity" label="数量" width="110" align="center" />
+        <el-table-column label="操作" width="180" align="center" fixed="right">
           <template #default="scope">
             <el-button type="primary" size="small" @click="onEdit(scope.row.ID)">编辑</el-button>
             <el-button type="danger" size="small" @click="onDelete(scope.row.ID)">删除</el-button>
@@ -32,10 +35,12 @@
         <el-pagination
           background
           :page-size="pageSize"
+          :page-sizes="[5,10, 20, 50, 100]"
           :current-page="page"
           :total="total"
-          layout="prev, pager, next, total"
+          layout="total, sizes, prev, pager, next, jumper"
           @current-change="onPageChange"
+          @size-change="onSizeChange"
         />
       </div>
     </div>
@@ -56,7 +61,7 @@ const filters = reactive({
 })
 
 const page = ref(1)
-const pageSize = 10
+const pageSize = ref(10)
 
 const loading = computed(() => store.loading)
 const items = computed(() => store.items)
@@ -67,8 +72,17 @@ onMounted(() => {
 })
 
 async function fetchData() {
-  const params = { name: filters.name || '' }
+  const params = {
+    name: filters.name || '',
+    page: page.value,
+    pageSize: pageSize.value
+  }
   await store.fetchList(params)
+}
+
+function formatPrice(price) {
+  if (price === null || price === undefined) return 'N/A';
+  return `¥ ${parseFloat(price).toFixed(2)}`;
 }
 
 function onSearch() {
@@ -97,12 +111,21 @@ async function onDelete(id) {
   }
   const ok = await store.removeItem(id)
   if (ok) {
+    if (items.value.length === 1 && page.value > 1) {
+      page.value--
+    }
     fetchData()
   }
 }
 
 function onPageChange(p) {
   page.value = p
+  fetchData()
+}
+
+function onSizeChange(size) {
+  pageSize.value = size
+  page.value = 1
   fetchData()
 }
 </script>

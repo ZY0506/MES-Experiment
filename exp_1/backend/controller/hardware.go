@@ -2,7 +2,6 @@ package controller
 
 import (
 	"MES/exp1/logic"
-	"MES/exp1/models"
 	"MES/exp1/pkg/validate"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -10,12 +9,6 @@ import (
 	"go.uber.org/zap"
 	"strconv"
 )
-
-// QueryResult 查询结果
-type QueryResult struct {
-	List  []models.Product `json:"list"`
-	Total int64            `json:"total"`
-}
 
 // CreateHardwareView 添加设备
 func CreateHardwareView(c *gin.Context) {
@@ -70,20 +63,29 @@ func UpdateHardwareView(c *gin.Context) {
 // ListHardwareView 查询设备信息
 func ListHardwareView(c *gin.Context) {
 	// 参数绑定
-	var query string
-	query = c.Query("name")
+	name := c.Query("name")
+	pageStr := c.Query("page")
+	pageSizeStr := c.Query("pageSize")
+	pageNum, err := strconv.Atoi(pageStr)
+	if err != nil {
+		zap.L().Error("参数错误", zap.Error(err))
+		FailWithMessage("参数错误", c)
+		return
+	}
+	pageSize, err := strconv.Atoi(pageSizeStr)
+	if err != nil {
+		zap.L().Error("参数错误", zap.Error(err))
+		FailWithMessage("参数错误", c)
+		return
+	}
 	// 查询设备信息
-	list, total, err := logic.ListHardware(query)
+	result, err := logic.ListHardware(name, pageNum, pageSize)
 	if err != nil {
 		zap.L().Error("查询设备信息失败", zap.Error(err))
 		FailWithMessage("查询设备信息失败", c)
 		return
 	}
-	res := QueryResult{
-		List:  list,
-		Total: total,
-	}
-	SuccessWithMessage("查询设备信息成功", res, c)
+	SuccessWithMessage("查询设备信息成功", result, c)
 }
 
 // DeleteHardwareView 删除设备

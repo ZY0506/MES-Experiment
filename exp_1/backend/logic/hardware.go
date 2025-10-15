@@ -46,12 +46,26 @@ func UpdateHardware(id uint64, name, category, description string, price float32
 	return mysql.UpdateHardware(h)
 }
 
-func ListHardware(query string) ([]models.Product, int64, error) {
-	list, total, err := mysql.ListHardware(query)
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return []models.Product{}, 0, nil
+func ListHardware(name string, pageNum, pageSize int) (*mysql.PageResult, error) {
+	// 校验并设置默认值
+	if pageNum < 1 {
+		pageNum = 1
 	}
-	return list, total, err
+	if pageSize < 1 {
+		pageSize = 10
+	}
+	result, err := mysql.ListHardware(name, pageNum, pageSize)
+	if err != nil {
+		// 如果是记录未找到错误，返回空结果
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return &mysql.PageResult{
+				List:  []models.Product{},
+				Total: 0,
+			}, nil
+		}
+		return nil, err
+	}
+	return result, err
 }
 
 func DeleteHardware(id int64) error {

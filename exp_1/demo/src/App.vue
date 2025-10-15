@@ -15,13 +15,13 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header class="app-header">
-        <div class="header-left">Vue 3 + Element Plus - 硬件 CRUD</div>
-      </el-header>
+      <!-- <el-header class="app-header">
+        <div class="header-left"></div>
+      </el-header> -->
       <el-main class="app-main">
         <router-view />
       </el-main>
-      <el-footer class="app-footer">© 2025 硬件管理</el-footer>
+      <el-footer class="app-footer">2023 工业软件</el-footer>
     </el-container>
   </el-container>
 </template>
