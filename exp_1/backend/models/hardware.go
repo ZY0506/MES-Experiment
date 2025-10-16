@@ -4,8 +4,8 @@ import "time"
 
 type Model struct {
 	ID       uint64
-	CreateAt time.Time
-	UpdateAt time.Time
+	CreateAt time.Time `json:"-"`
+	UpdateAt time.Time `json:"-"`
 }
 
 type Product struct {

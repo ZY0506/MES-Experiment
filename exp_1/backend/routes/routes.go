@@ -19,6 +19,7 @@ func Run() {
 		hardwareGroup.GET("/query", controller.ListHardwareView)
 		hardwareGroup.PUT("/update", controller.UpdateHardwareView)
 		hardwareGroup.DELETE("/delete", controller.DeleteHardwareView)
+		hardwareGroup.GET("/get", controller.GetHardwareView)
 	}
 
 	r.NoRoute(func(c *gin.Context) {

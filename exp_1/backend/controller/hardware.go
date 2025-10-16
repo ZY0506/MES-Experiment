@@ -107,3 +107,24 @@ func DeleteHardwareView(c *gin.Context) {
 	}
 	SuccessWithMessage("删除设备成功", nil, c)
 }
+
+// GetHardwareView 获取设备信息
+func GetHardwareView(c *gin.Context) {
+	// 获取设备ID
+	var query string
+	query = c.Query("id")
+	id, err := strconv.Atoi(query)
+	if err != nil {
+		zap.L().Error("参数错误", zap.Error(err))
+		FailWithMessage("参数错误", c)
+		return
+	}
+	// 获取设备信息
+	res, err := logic.GetHardware(int64(id))
+	if err != nil {
+		zap.L().Error("获取设备信息失败", zap.Error(err))
+		FailWithMessage("获取设备信息失败", c)
+		return
+	}
+	SuccessWithMessage("获取设备信息成功", res, c)
+}

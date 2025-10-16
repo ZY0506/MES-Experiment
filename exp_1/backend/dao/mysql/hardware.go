@@ -60,3 +60,9 @@ func ListHardware(name string, pageNum, pageSize int) (*PageResult, error) {
 func DeleteHardware(id int64) error {
 	return database.Model(&models.Product{}).Where("id = ?", id).Delete(&models.Product{}).Error
 }
+
+func GetHardware(id int64) (*models.Product, error) {
+	h := &models.Product{}
+	err := database.Model(&models.Product{}).Where("id = ?", id).First(h).Error
+	return h, err
+}

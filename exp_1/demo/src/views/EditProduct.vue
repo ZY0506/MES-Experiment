@@ -57,10 +57,24 @@ const rules = {
   quantity: [{ required: true, message: '请输入数量', trigger: 'change' }]
 }
 
+// -- START: 修改部分 --
 onMounted(async () => {
   const id = route.params.id
-  await store.fetchList({ name: '' })
-  const item = store.items.find(i => String(i.ID) === String(id))
+  
+  // 首先，尝试从已经存在的列表中查找商品信息。
+  // 如果用户是从列表页点击过来的，通常可以在这里找到，避免一次多余的API请求。
+  let item = store.items.find(i => String(i.ID) === String(id))
+
+  // 如果在当前列表中找不到（例如用户直接刷新了编辑页面），
+  // 则调用一个专门根据ID获取单个商品信息的action。
+  // 注意：你需要在你的 hardwareStore.js 中添加一个类似 fetchItemById 的 action，
+  // 这个 action 应该接收一个 id，然后向后端API请求这个商品的详细数据。
+  if (!item) {
+    // 假设你的store中有一个名为 fetchItemById 的方法
+    // 这比原来的 fetchList() 方法更准确、更高效
+    item = await store.fetchItemById(id)
+  }
+
   if (item) {
     form.id = item.ID
     form.name = item.name
@@ -69,9 +83,12 @@ onMounted(async () => {
     form.price = item.price
     form.quantity = item.quantity
   } else {
-    form.id = id
+    // 如果商品不存在，可以给出提示并返回列表页
+    console.error('商品未找到!');
+    router.push('/list');
   }
 })
+// -- END: 修改部分 --
 
 async function onSubmit() {
   formRef.value.validate(async valid => {

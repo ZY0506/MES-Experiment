@@ -71,3 +71,7 @@ func ListHardware(name string, pageNum, pageSize int) (*mysql.PageResult, error)
 func DeleteHardware(id int64) error {
 	return mysql.DeleteHardware(id)
 }
+
+func GetHardware(id int64) (*models.Product, error) {
+	return mysql.GetHardware(id)
+}
